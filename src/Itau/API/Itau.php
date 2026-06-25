@@ -227,10 +227,11 @@ class Itau
     {
         $boletoResponse = new BoletoResponse();
 
-        $id_beneficiario = str_pad($agencia, 4, '0', STR_PAD_LEFT).str_pad($contaComDigito, 8, '0', STR_PAD_LEFT);
+        $id_beneficiario = str_pad($contaComDigito, 8, '0', STR_PAD_LEFT);
         $nosso_numero = str_pad($nossoNumero, 8, '0', STR_PAD_LEFT);
+        $agencia = str_pad($agencia, 4, '0', STR_PAD_LEFT);
         $request = new Request($this);
-        $response = $request->get($this, "{$this->getEnvironment()->getApiBoletoConsultaUrl()}/boletos?id_beneficiario={$id_beneficiario}&nosso_numero={$nosso_numero}");
+        $response = $request->get($this, "{$this->getEnvironment()->getApiBoletoConsultaUrl()}/boletos?id_beneficiario={$id_beneficiario}&nosso_numero={$nosso_numero}&codigo_carteira={$agencia}");
 
         // Add response fields
         $boletoResponse->mapperJson($response);
