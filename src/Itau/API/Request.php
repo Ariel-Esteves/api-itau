@@ -182,7 +182,7 @@ class Request
         if(is_null($responseDecode)){
             $responseDecode = ['status_code' => $statusCode];
         } else {
-            array_push($responseDecode, ['status_code' => $statusCode]);
+            $responseDecode['status_code'] = $statusCode;
         }
         
         return $responseDecode;

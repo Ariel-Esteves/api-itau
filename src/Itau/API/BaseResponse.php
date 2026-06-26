@@ -21,6 +21,8 @@ class BaseResponse implements \JsonSerializable
     private $mensagem;
     private $codigo;
 
+    private array $response = [];
+
     public function jsonSerialize(): mixed
     {
         return get_object_vars($this);
@@ -28,18 +30,30 @@ class BaseResponse implements \JsonSerializable
 
     public function mapperJson($json)
     {
-        if (is_array($json)) {
-            array_walk_recursive($json, function ($value, $key) {
-
-                if (property_exists($this, $key)) {
-                    $this->$key = $value;
-                }
-            });
+        if (is_string($json)) {
+            $json = json_decode($json, true);
         }
 
-        $this->setResponseJSON($json);
+        $this->response = $json;
+
+        foreach ($json as $key => $value) {
+
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
 
         return $this;
+    }
+
+    public function getResponse(): array
+    {
+        return $this->response;
+    }
+
+    public function getData(): array
+    {
+        return $this->response['data'] ?? [];
     }
 
     public function setResponseJSON($array)
