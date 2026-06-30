@@ -227,7 +227,7 @@ class Itau
     {
         $boletoResponse = new BoletoResponse();
 
-        $id_beneficiario = str_pad($contaComDigito, 8, '0', STR_PAD_LEFT);
+        $id_beneficiario = str_pad($contaComDigito, 12, '0', STR_PAD_LEFT);
         $nosso_numero = str_pad($nossoNumero, 8, '0', STR_PAD_LEFT);
         $agencia = str_pad($agencia, 3, '0', STR_PAD_LEFT);
         $request = new Request($this);
