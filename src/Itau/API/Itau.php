@@ -231,12 +231,14 @@ class Itau
         $nosso_numero = str_pad($nossoNumero, 8, '0', STR_PAD_LEFT);
         $carteira = str_pad($carteira, 3, '0', STR_PAD_LEFT);
         $request = new Request($this);
-        error_log('url itau ' . "{$this->getEnvironment()->getApiBoletoConsultaUrl()}/boletos?id_beneficiario={$id_beneficiario}&nosso_numero={$nosso_numero}&codigo_carteira={$carteira}");
-        $response = $request->get($this, "{$this->getEnvironment()->getApiBoletoConsultaUrl()}/boletos?id_beneficiario={$id_beneficiario}&nosso_numero={$nosso_numero}&codigo_carteira={$carteira}");
+        $url = "{$this->getEnvironment()->getApiBoletoConsultaUrl()}/boletos?id_beneficiario={$id_beneficiario}&nosso_numero={$nosso_numero}&codigo_carteira={$carteira}";
+        error_log('url itau ' . $url);
+        $response = $request->get($this, $url);
         error_log('response from itau ' . json_encode($response));
 
         // Add response fields
         $boletoResponse->mapperJson($response);
+        $boletoResponse->url = $url;
 
         return $boletoResponse;
     }
