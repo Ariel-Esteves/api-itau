@@ -223,15 +223,17 @@ class Itau
         return $boletoResponse;
     }
 
-    public function consultarBoleto($agencia, $contaComDigito, $nossoNumero)
+    public function consultarBoleto($carteira, $id_beneficiario, $nossoNumero)
     {
         $boletoResponse = new BoletoResponse();
 
-        $id_beneficiario = str_pad($contaComDigito, 12, '0', STR_PAD_LEFT);
+        $id_beneficiario = str_pad($id_beneficiario, 12, '0', STR_PAD_LEFT);
         $nosso_numero = str_pad($nossoNumero, 8, '0', STR_PAD_LEFT);
-        $agencia = str_pad($agencia, 3, '0', STR_PAD_LEFT);
+        $carteira = str_pad($carteira, 3, '0', STR_PAD_LEFT);
         $request = new Request($this);
-        $response = $request->get($this, "{$this->getEnvironment()->getApiBoletoConsultaUrl()}/boletos?id_beneficiario={$id_beneficiario}&nosso_numero={$nosso_numero}&codigo_carteira={$agencia}");
+        error_log('url itau ' . "{$this->getEnvironment()->getApiBoletoConsultaUrl()}/boletos?id_beneficiario={$id_beneficiario}&nosso_numero={$nosso_numero}&codigo_carteira={$carteira}");
+        $response = $request->get($this, "{$this->getEnvironment()->getApiBoletoConsultaUrl()}/boletos?id_beneficiario={$id_beneficiario}&nosso_numero={$nosso_numero}&codigo_carteira={$carteira}");
+        error_log('response from itau ' . json_encode($response));
 
         // Add response fields
         $boletoResponse->mapperJson($response);
